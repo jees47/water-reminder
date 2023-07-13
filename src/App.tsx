@@ -15,7 +15,7 @@ function App() {
     }
 
     if (isStarted) {
-      interval = setTimeout(() => {
+      interval = setInterval(() => {
         // Request permission for notifications
         Notification.requestPermission().then((permission) => {
           if (permission === "granted") {
@@ -47,7 +47,7 @@ function App() {
   };
 
   return (
-    <div className="d-flex align-items-center justify-content-center flex-column vh-100 bg-light">
+    <div className="d-flex align-items-center justify-content-center flex-column vh-100  bg-image" >
       <div>
         <h1 className="mb-4 font-width-bolder">Water Reminder</h1>
       </div>
