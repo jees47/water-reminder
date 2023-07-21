@@ -41,7 +41,7 @@ function App() {
 
       // Optional: Handle click event on the notification
       notification.onclick = () => {
-        // console.log("Notification clicked");
+        console.log("Notification clicked");
       };
     }
   };
