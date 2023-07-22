@@ -4,50 +4,51 @@ import { useEffect, useState } from "react";
 function App() {
   const [minutes, setMinutes] = useState<any>(null);
   const [isStarted, setIsStarted] = useState<boolean>(false);
+  const [isSupported, setIsSupported] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!("Notification" in window)) {
+      setIsSupported(false);
+      alert("Sorry, this browser does not support desktop notification");
+    } else {
+      setIsSupported(true);
+    }
+  }, []);
 
   useEffect(() => {
     let interval: any;
 
-    if (!("Notification" in window)) {
-      alert("Sorry, this browser does not support desktop notification");
-      // Handle unsupported browser case
-      return;
-    }
-
-    if (isStarted) {
-      interval = setInterval(() => {
-        // Request permission for notifications
+    if (isStarted && isSupported) {
+      if(minutes > 0 ){
         Notification.requestPermission().then((permission) => {
           if (permission === "granted") {
-            showNotification();
+            interval = setInterval(() => {
+              showNotification();
+            }, minutes * 60000);
           } else {
             alert("Please accept notification permission");
           }
         });
-      }, minutes * 60000);
+      }else{
+        alert("Please Enter a valid value")
+        setIsStarted((prev) => !prev);
+      }
     }
     return () => clearTimeout(interval);
-  }, [isStarted]);
+  }, [isStarted, isSupported]);
 
   const showNotification = () => {
-    // Check if the browser supports notifications
-    if (!("Notification" in window)) {
-      console.log("This browser does not support desktop notification");
-    } else if (Notification.permission === "granted") {
-      // If permission is granted, show the notification
-      const notification = new Notification("Take A Drink", {
-        body: "Its time to take a sip!",
-      });
+    const notification = new Notification("Take A Drink", {
+      body: "Its time to take a sip!",
+    });
 
-      // Optional: Handle click event on the notification
-      notification.onclick = () => {
-        // console.log("Notification clicked");
-      };
-    }
+    notification.onclick = () => {
+      console.log("You are Awesome 😉👌");
+    };
   };
 
   return (
-    <div className="d-flex align-items-center justify-content-center flex-column vh-100  bg-image" >
+    <div className="d-flex align-items-center justify-content-center flex-column vh-100  bg-image">
       <div>
         <h1 className="mb-4 font-width-bolder">Water Reminder</h1>
       </div>
