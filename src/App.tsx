@@ -40,7 +40,7 @@ function App() {
   const showNotification = () => {
     const notification = new Notification("Take A Drink", {
       body: "Its time to take a sip!",
-      icon: './assets/bg.jpg',
+      icon: './notification-icon.png',
     });
 
     notification.onclick = () => {
